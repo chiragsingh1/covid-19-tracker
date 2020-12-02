@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import InfoBox from './InfoBox';
 import Map from './Map';
 import Table from './Table';
+import LineGraph from './LineGraph';
 import './App.css';
 import { sortData } from './util';
 
@@ -65,7 +66,7 @@ function App() {
         setCountryInfo(data);
       });
   };
-  console.log('COUNTRY INFO>>>', countryInfo);
+  // console.log('COUNTRY INFO>>>', countryInfo);
 
   return (
     <div className="app">
@@ -113,10 +114,10 @@ function App() {
       <Card className="app__right">
         <CardContent>
           <h3>Live Cases by Country</h3>
-          {/* Table */}
           <Table countries={tableData} />
+
           <h3>Wordlwide New Cases</h3>
-          {/* Graph */}
+          <LineGraph />
         </CardContent>
       </Card>
     </div>
