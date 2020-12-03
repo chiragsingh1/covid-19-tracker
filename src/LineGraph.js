@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import numeral from 'numeral';
 
@@ -46,6 +46,7 @@ const options = {
     ],
   },
 };
+
 const buildChartData = (data, casesType) => {
   let chartData = [];
   let lastDataPoint;
@@ -64,37 +65,38 @@ const buildChartData = (data, casesType) => {
 
 function LineGraph({ casesType }) {
   const [data, setData] = useState({});
-  // https://disease.sh/v3/covid-19/historical/all?lastdays=120
 
   useEffect(() => {
     const fetchData = async () => {
       await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
-        .then((response) => response.json())
+        .then((response) => {
+          return response.json();
+        })
         .then((data) => {
-          // console.log('DATA', data);
-          let chartData = buildChartData(data, 'cases');
-          // console.log(chartData);
+          let chartData = buildChartData(data, casesType);
           setData(chartData);
+          console.log(chartData);
+          // buildChart(chartData);
         });
     };
+
     fetchData();
   }, [casesType]);
 
   return (
     <div>
-      {/* <h3>GRAPH</h3> */}
       {data?.length > 0 && (
         <Line
-          options={options}
           data={{
             datasets: [
               {
-                data: data,
-                backgroundColor: 'rgba(204,16,52,0.5)',
+                backgroundColor: 'rgba(204, 16, 52, 0.5)',
                 borderColor: '#CC1034',
+                data: data,
               },
             ],
           }}
+          options={options}
         />
       )}
     </div>
